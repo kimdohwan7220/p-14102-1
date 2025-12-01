@@ -13,10 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-
-import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 @RequiredArgsConstructor
@@ -52,17 +50,6 @@ public class PostController {
             Model model
     ) {
         if (bindingResult.hasErrors()) {
-
-            String errorMessage = bindingResult
-                    .getFieldErrors()
-                    .stream()
-                    .map(fieldError -> (fieldError.getField() + "-" + fieldError.getDefaultMessage()).split("-", 3))
-                    .map(field -> "<!--%s--><li data-error-field-name=\"%s\">%s</li>".formatted(field[1], field[0], field[2]))
-                    .sorted()
-                    .collect(Collectors.joining("\n"));
-
-            model.addAttribute("errorMessage", errorMessage);
-
             return "post/post/write";
         }
 
